@@ -51,8 +51,11 @@ export function resolveBoard(
   for (;;) {
     const matches = findMatches(workingBoard);
     const clearMap = new Map<string, Position>();
+    const specials: ResolveResult["steps"][number]["specials"] = [];
 
     for (const seed of pendingSeed) {
+      const seedCell = getCell(workingBoard, seed.origin);
+      specials.push({ pos: seed.origin, special: seed.special, color: seedCell?.color ?? null });
       for (const pos of activatePositions(workingBoard, seed.origin, seed.special, seed.otherColor)) {
         clearMap.set(posKey(pos), pos);
       }
@@ -66,6 +69,7 @@ export function resolveBoard(
     if (clearMap.size === 0) break;
 
     // Chain-activate any already-special tile swept up by this round's clears.
+    const seedKeys = new Set(pendingSeed.map((s) => posKey(s.origin)));
     const activationQueue = [...clearMap.values()];
     const processed = new Set<string>();
     while (activationQueue.length > 0) {
@@ -76,6 +80,9 @@ export function resolveBoard(
 
       const cell = getCell(workingBoard, pos);
       if (!cell?.special) continue;
+      if (!seedKeys.has(key)) {
+        specials.push({ pos, special: cell.special, color: cell.color });
+      }
 
       for (const extra of activatePositions(workingBoard, pos, cell.special, null)) {
         const extraKey = posKey(extra);
@@ -134,6 +141,7 @@ export function resolveBoard(
       scoreGained: stepScore,
       clearedTiles,
       iceBroken,
+      specials,
     });
   }
 

@@ -30,6 +30,7 @@ export function PlayClient({ level }: { level: LevelDefinition }) {
   const isAnimating = useGameSessionStore((s) => s.isAnimating);
   const shake = useGameSessionStore((s) => s.shake);
   const ghosts = useGameSessionStore((s) => s.ghosts);
+  const effects = useGameSessionStore((s) => s.effects);
   const scorePops = useGameSessionStore((s) => s.scorePops);
   const comboLevel = useGameSessionStore((s) => s.comboLevel);
   const bursts = useGameSessionStore((s) => s.bursts);
@@ -139,6 +140,7 @@ export function PlayClient({ level }: { level: LevelDefinition }) {
             comboLevel={comboLevel}
             bursts={bursts}
             ghosts={ghosts}
+            effects={effects}
             boardWidth={displayBoard.width}
             boardHeight={displayBoard.height}
           />

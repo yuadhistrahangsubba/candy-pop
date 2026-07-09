@@ -80,6 +80,8 @@ export interface CascadeStep {
   clearedTiles: { pos: Position; color: CandyColor | null }[];
   /** Ice layers broken this round. */
   iceBroken: Position[];
+  /** Special candies that detonated this round — drives activation VFX. */
+  specials: { pos: Position; special: SpecialType; color: CandyColor | null }[];
 }
 
 export interface ResolveResult {

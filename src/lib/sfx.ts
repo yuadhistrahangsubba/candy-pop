@@ -95,6 +95,30 @@ export const sfx = {
     tone({ freq: 140, to: 90, duration: 0.18, volume: 0.14, type: "square" });
   },
 
+  /** Rising charge-up before a special detonates. */
+  charge() {
+    tone({ freq: 220, to: 880, duration: 0.16, volume: 0.1, type: "sawtooth" });
+  },
+
+  /** Laser sweep for a striped candy beam. */
+  beam() {
+    tone({ freq: 1200, to: 260, duration: 0.22, volume: 0.16, type: "sawtooth" });
+    tone({ freq: 2000, to: 500, duration: 0.14, volume: 0.06, type: "sine" });
+  },
+
+  /** Deep double boom for a wrapped candy. */
+  wrapped() {
+    tone({ freq: 120, to: 45, duration: 0.3, volume: 0.22, type: "sine" });
+    tone({ freq: 90, to: 40, duration: 0.28, volume: 0.16, type: "sine", delay: 0.12 });
+  },
+
+  /** Crackling zap + rumble for the Thunder Dragon Orb. */
+  bomb() {
+    tone({ freq: 60, to: 28, duration: 0.5, volume: 0.24, type: "sine" });
+    tone({ freq: 1600, to: 200, duration: 0.3, volume: 0.1, type: "square" });
+    tone({ freq: 900, to: 2400, duration: 0.12, volume: 0.06, type: "sawtooth", delay: 0.05 });
+  },
+
   /** Rising arpeggio on a win. */
   win() {
     const notes = [523.25, 659.25, 783.99, 1046.5]; // C5 E5 G5 C6

@@ -41,6 +41,17 @@ export interface Ghost {
   color: CandyColor | null;
 }
 
+/** A special-candy activation VFX event (laser beam, shockwave, lightning strike). */
+export interface SpecialEffectData {
+  id: number;
+  kind: "beam-h" | "beam-v" | "wrapped" | "bomb";
+  row: number;
+  col: number;
+  color: CandyColor | null;
+  /** Bomb only: cells its lightning arcs strike. */
+  targets?: Position[];
+}
+
 interface GameSessionState {
   level: LevelDefinition | null;
   session: GameSession | null;
@@ -59,6 +70,7 @@ interface GameSessionState {
   /** Two positions briefly wiggled after an invalid swap. */
   shake: Position[] | null;
   ghosts: Ghost[];
+  effects: SpecialEffectData[];
   scorePops: ScorePop[];
   /** Cascade depth of the most recent step (2+ shows the combo banner). */
   comboLevel: number;
@@ -97,6 +109,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
   isAnimating: false,
   shake: null,
   ghosts: [],
+  effects: [],
   scorePops: [],
   comboLevel: 0,
   bursts: [],
@@ -119,6 +132,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
       isAnimating: false,
       shake: null,
       ghosts: [],
+      effects: [],
       scorePops: [],
       comboLevel: 0,
       bursts: [],
@@ -173,6 +187,15 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
       for (let i = 0; i < steps.length; i += 1) {
         const step = steps[i];
 
+        // Anticipation: specials wiggle and charge up before detonating.
+        if (step.specials.length > 0) {
+          sfx.charge();
+          set({ shake: step.specials.map((sp) => sp.pos) });
+          await sleep(180);
+          if (playbackToken !== token) return null;
+          set({ shake: null });
+        }
+
         runningScore += step.scoreGained;
         popId += 1;
         // Cap bursts per step so a color-bomb wipe doesn't spawn 40 explosions.
@@ -188,20 +211,44 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
           burstId += 1;
           return { id: burstId, row: t.pos.row, col: t.pos.col, color: t.color };
         });
+        // Special activation VFX: beams for striped, shockwaves for wrapped,
+        // lightning for the Thunder Dragon Orb (capped to keep frames cheap).
+        const newEffects: SpecialEffectData[] = step.specials.slice(0, 10).map((sp) => {
+          burstId += 1;
+          const base = { id: burstId, row: sp.pos.row, col: sp.pos.col, color: sp.color };
+          if (sp.special === "striped-h") return { ...base, kind: "beam-h" as const };
+          if (sp.special === "striped-v") return { ...base, kind: "beam-v" as const };
+          if (sp.special === "wrapped") return { ...base, kind: "wrapped" as const };
+          return {
+            ...base,
+            kind: "bomb" as const,
+            targets: step.clearedTiles
+              .filter((t) => t.pos.row !== sp.pos.row || t.pos.col !== sp.pos.col)
+              .slice(0, 10)
+              .map((t) => t.pos),
+          };
+        });
+        for (const fx of newEffects) {
+          if (fx.kind === "beam-h" || fx.kind === "beam-v") sfx.beam();
+          else if (fx.kind === "wrapped") sfx.wrapped();
+          else sfx.bomb();
+        }
+
         sfx.pop(i);
-        haptics.pop(i);
+        haptics.pop(i + (newEffects.length > 0 ? 2 : 0));
         set((state) => ({
           displayBoard: step.cleared,
           ghosts: newGhosts,
+          effects: newEffects,
           comboLevel: i + 1,
           bursts: newBursts,
           shakeTick: state.shakeTick + 1,
           scorePops: [...state.scorePops.slice(-3), { id: popId, amount: Math.round(step.scoreGained), cascade: i + 1 }],
         }));
-        await sleep(CLEAR_MS);
+        await sleep(newEffects.length > 0 ? CLEAR_MS + 200 : CLEAR_MS);
         if (playbackToken !== token) return null;
 
-        set({ displayBoard: step.settled, ghosts: [], displayScore: Math.round(runningScore) });
+        set({ displayBoard: step.settled, ghosts: [], effects: [], displayScore: Math.round(runningScore) });
         await sleep(SETTLE_MS);
         if (playbackToken !== token) return null;
       }
@@ -237,6 +284,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
           comboLevel: 0,
           bursts: [],
           ghosts: [],
+          effects: [],
         });
         await sleep(1000);
         if (playbackToken !== token) return;
@@ -265,6 +313,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
           comboLevel: 0,
           bursts: [],
           ghosts: [],
+          effects: [],
           isAnimating: false,
           status: "won",
         });
@@ -299,6 +348,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
         comboLevel: 0,
         bursts: [],
         ghosts: [],
+        effects: [],
         isAnimating: false,
         status: outcome.won ? "won" : outcome.lost ? "lost" : "playing",
       }));
@@ -320,6 +370,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
       isAnimating: false,
       shake: null,
       ghosts: [],
+      effects: [],
       scorePops: [],
       comboLevel: 0,
       bursts: [],

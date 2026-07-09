@@ -1,9 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import type { Burst, Ghost, ScorePop } from "@/stores/gameSessionStore";
+import type { Burst, Ghost, ScorePop, SpecialEffectData } from "@/stores/gameSessionStore";
 import { CANDY_STYLE } from "./candyStyles";
 import { CandyIcon } from "./CandyIcon";
+import { SpecialEffects } from "./SpecialEffects";
 
 const COMBO_WORDS = ["", "", "Tashi Delek!", "Kuzuzangpo!", "Druk Power!", "Druk Power!"];
 
@@ -67,14 +68,16 @@ interface BoardOverlayProps {
   comboLevel: number;
   bursts: Burst[];
   ghosts: Ghost[];
+  effects: SpecialEffectData[];
   boardWidth: number;
   boardHeight: number;
 }
 
-/** Ghost sprites, particle bursts, floating "+N" pops, and the combo banner layered over the board. */
-export function BoardOverlay({ scorePops, comboLevel, bursts, ghosts, boardWidth, boardHeight }: BoardOverlayProps) {
+/** Ghost sprites, special-activation VFX, particle bursts, floating "+N" pops, and the combo banner layered over the board. */
+export function BoardOverlay({ scorePops, comboLevel, bursts, ghosts, effects, boardWidth, boardHeight }: BoardOverlayProps) {
   return (
     <div className="pointer-events-none absolute inset-0">
+      <SpecialEffects effects={effects} boardWidth={boardWidth} boardHeight={boardHeight} />
       {/* Deep cascades bathe the board in a golden festival glow */}
       {comboLevel >= 4 && (
         <motion.div

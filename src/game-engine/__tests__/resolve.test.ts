@@ -52,6 +52,38 @@ describe("resolveBoard", () => {
     expect(result.scoreGained).toBe(40); // 4 tiles * 10 * multiplier(0)=1
   });
 
+  it("reports activated specials on the step for VFX playback", () => {
+    const board = makeBoard([
+      ["red", { color: "green", special: "striped-h" }, "blue", "yellow"],
+    ]);
+
+    const result = resolveBoard(board, 4, makeSequentialRng(), [
+      { origin: { row: 0, col: 1 }, special: "striped-h", otherColor: null },
+    ]);
+
+    expect(result.steps[0].specials).toEqual([
+      { pos: { row: 0, col: 1 }, special: "striped-h", color: "green" },
+    ]);
+  });
+
+  it("reports chain-activated specials swept up by a match", () => {
+    // The red match clears col 0-2 of row 0; the striped-v at (0,2) is part
+    // of the row... place striped candy adjacent so the row clear sweeps it.
+    const board = makeBoard([
+      ["red", "red", "red", { color: "blue", special: "striped-v" }],
+      ["green", "yellow", "green", "yellow"],
+    ]);
+
+    const result = resolveBoard(board, 4, makeSequentialRng(), [
+      { origin: { row: 0, col: 0 }, special: "striped-h", otherColor: null },
+    ]);
+
+    // The seeded row blast clears row 0 including the striped-v, which
+    // chain-activates and must be reported for VFX.
+    const kinds = result.steps[0].specials.map((sp) => sp.special).sort();
+    expect(kinds).toEqual(["striped-h", "striped-v"]);
+  });
+
   it("clears every candy of the swapped color when a color bomb activates", () => {
     const board = makeBoard([
       ["red", { color: null, special: "color-bomb" }, "blue", "red"],
