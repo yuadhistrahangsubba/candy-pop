@@ -85,8 +85,12 @@ export function Tile({
       aria-label={tile.special ? `${tile.special} candy` : `${tile.color} candy`}
     >
       {/* inset % resolves against the button itself, unlike padding % which
-          resolves against the board width and shrank candies on big boards */}
-      <span className="absolute inset-[5%]">
+          resolves against the board width and shrank candies on big boards.
+          The breathe layer is CSS-only so it never touches Motion's state. */}
+      <span
+        className="treasure-breathe absolute inset-[5%]"
+        style={{ animationDelay: `${((pos.row * 7 + pos.col * 13) % 12) * 0.3}s` }}
+      >
         {tile.special === "color-bomb" ? (
           <motion.div
             className="h-full w-full"

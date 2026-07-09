@@ -9,6 +9,7 @@ import {
 } from "@/game-engine/engine";
 import { isAdjacent } from "@/game-engine/board";
 import { sfx } from "@/lib/sfx";
+import { haptics } from "@/lib/haptics";
 import type { Board, CandyColor, CascadeStep, LevelDefinition, ObjectiveProgress, Position } from "@/game-engine/types";
 
 /** "bonus" = the sugar-crush finale is playing before the win is committed. */
@@ -151,6 +152,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
     if (!outcome.result.valid || !outcome.timeline) {
       // Invalid: wiggle both tiles, keep the turn.
       sfx.invalid();
+      haptics.invalid();
       const shaken = [selected, pos];
       set({ selected: null, shake: shaken });
       const token = playbackToken;
@@ -187,6 +189,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
           return { id: burstId, row: t.pos.row, col: t.pos.col, color: t.color };
         });
         sfx.pop(i);
+        haptics.pop(i);
         set((state) => ({
           displayBoard: step.cleared,
           ghosts: newGhosts,
@@ -223,6 +226,7 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
       // counts toward stars.
       if (outcome.won && outcome.session.movesLeft > 0) {
         sfx.win();
+        haptics.win();
         set({
           status: "bonus",
           session: outcome.session,
@@ -270,8 +274,13 @@ export const useGameSessionStore = create<GameSessionState>((set, get) => ({
       // 4. Commit the authoritative session and outcome. If the game
       // continues but the board has no legal swap left, reshuffle it so the
       // player is never stuck.
-      if (outcome.won) sfx.win();
-      else if (outcome.lost) sfx.lose();
+      if (outcome.won) {
+        sfx.win();
+        haptics.win();
+      } else if (outcome.lost) {
+        sfx.lose();
+        haptics.lose();
+      }
       let finalSession = outcome.session;
       let reshuffled = false;
       if (!outcome.won && !outcome.lost) {

@@ -5,7 +5,7 @@ import type { Burst, Ghost, ScorePop } from "@/stores/gameSessionStore";
 import { CANDY_STYLE } from "./candyStyles";
 import { CandyIcon } from "./CandyIcon";
 
-const COMBO_WORDS = ["", "", "Sweet!", "Tasty!", "Divine!", "EPIC!"];
+const COMBO_WORDS = ["", "", "Tashi Delek!", "Kuzuzangpo!", "Druk Power!", "Druk Power!"];
 
 function comboWord(cascade: number): string {
   return COMBO_WORDS[Math.min(cascade, COMBO_WORDS.length - 1)];
@@ -75,6 +75,20 @@ interface BoardOverlayProps {
 export function BoardOverlay({ scorePops, comboLevel, bursts, ghosts, boardWidth, boardHeight }: BoardOverlayProps) {
   return (
     <div className="pointer-events-none absolute inset-0">
+      {/* Deep cascades bathe the board in a golden festival glow */}
+      {comboLevel >= 4 && (
+        <motion.div
+          key={`glow-${comboLevel}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0.5, 0] }}
+          transition={{ duration: 0.9, times: [0, 0.3, 1] }}
+          className="absolute inset-0 rounded-2xl"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(255,190,60,0.55), rgba(255,150,30,0.15) 60%, transparent 80%)",
+          }}
+        />
+      )}
       {/* Cleared tiles shrink away as overlay sprites — mounted fresh each
           clear, hard-removed at settle, so they can never corrupt live tiles. */}
       {ghosts.map((ghost) => (

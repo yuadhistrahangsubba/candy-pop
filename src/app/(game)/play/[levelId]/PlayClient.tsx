@@ -10,6 +10,7 @@ import { usePlayerStore } from "@/stores/playerStore";
 import { Board } from "@/components/game/Board";
 import { BoardOverlay } from "@/components/game/BoardOverlay";
 import { Hud } from "@/components/game/Hud";
+import { DriftingClouds, LevelAtmosphere, PrayerFlags } from "@/components/decor/BhutanAtmosphere";
 import { sfx } from "@/lib/sfx";
 
 const RESULTS_DELAY_MS = 1400;
@@ -42,6 +43,11 @@ export function PlayClient({ level }: { level: LevelDefinition }) {
   useEffect(() => {
     hasRecorded.current = false;
     startLevel(level);
+    // Clear the session on the way out so the next play screen can never
+    // observe this level's "won"/"lost" status on its first render.
+    return () => {
+      useGameSessionStore.getState().reset();
+    };
   }, [level, startLevel]);
 
   useEffect(() => {
@@ -55,23 +61,32 @@ export function PlayClient({ level }: { level: LevelDefinition }) {
   useEffect(() => {
     if (status !== "won" && status !== "lost") return;
     if (hasRecorded.current) return;
+
+    // The store is global, so on first render this effect can see a stale
+    // "won" left over from the PREVIOUS level (before startLevel resets it).
+    // Trusting it would instantly mark this level complete with 0 points.
+    // Only proceed when the live store agrees the finished level is THIS one.
+    const state = useGameSessionStore.getState();
+    if (state.level?.id !== level.id) return;
+    if (state.status !== "won" && state.status !== "lost") return;
     hasRecorded.current = true;
 
-    const { session: finalSession, finalStars: stars } = useGameSessionStore.getState();
+    const { session: finalSession, finalStars: stars } = state;
     const score = finalSession?.score ?? 0;
 
+    const won = state.status === "won";
     recordLevelResult({
       levelId: level.id,
       levelNumber: level.levelNumber,
       score,
       stars,
-      won: status === "won",
+      won,
     });
 
     const params = new URLSearchParams({
       score: String(score),
       stars: String(stars),
-      won: status === "won" ? "1" : "0",
+      won: won ? "1" : "0",
     });
 
     // Let the win banner and final cascade read as a moment before leaving.
@@ -84,7 +99,10 @@ export function PlayClient({ level }: { level: LevelDefinition }) {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="flex flex-1 flex-col justify-center">
+      <div className="relative flex flex-1 flex-col justify-center">
+        <LevelAtmosphere levelNumber={level.levelNumber} />
+        <DriftingClouds />
+        <PrayerFlags className="absolute -top-3 left-0 h-10 opacity-80" />
         <div className="mx-auto mb-2 flex w-full max-w-md items-center justify-between">
           <Link
             href="/map"
@@ -145,7 +163,9 @@ export function PlayClient({ level }: { level: LevelDefinition }) {
                 className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center"
               >
                 <span
-                  className="font-display -rotate-3 text-center text-6xl font-bold italic tracking-wide"
+                  className={`font-display -rotate-3 text-center font-bold italic tracking-wide ${
+                    status === "bonus" ? "text-5xl" : "text-6xl"
+                  }`}
                   style={{
                     background:
                       status === "lost"
@@ -158,7 +178,7 @@ export function PlayClient({ level }: { level: LevelDefinition }) {
                     filter: "drop-shadow(0 3px 0 #40230a) drop-shadow(0 6px 12px rgba(0,0,0,0.35))",
                   }}
                 >
-                  {status === "lost" ? "Out of Moves" : status === "bonus" ? "Sugar Blast!" : "Tashi Delek!"}
+                  {status === "lost" ? "Out of Moves" : status === "bonus" ? "Festival Celebration!" : "Tashi Delek!"}
                 </span>
               </motion.div>
             )}

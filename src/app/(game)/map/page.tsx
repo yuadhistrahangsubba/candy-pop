@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { levels } from "@/levels";
 import { usePlayerStore } from "@/stores/playerStore";
 import { CANDY_STYLE } from "@/components/game/candyStyles";
+import { DriftingClouds, FallingPetals, PrayerFlags } from "@/components/decor/BhutanAtmosphere";
 import type { CandyColor } from "@/game-engine/types";
 
 const NODE_COLORS: CandyColor[] = ["red", "blue", "green", "yellow", "purple", "orange"];
@@ -26,6 +27,9 @@ export default function MapPage() {
 
   return (
     <div className="relative flex flex-1 flex-col">
+      <DriftingClouds />
+      <FallingPetals />
+      <PrayerFlags className="absolute -top-4 left-0 h-12" />
       {DECOR.map((d) => (
         <span
           key={d.emoji}

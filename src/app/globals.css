@@ -207,3 +207,51 @@
 .wrapped-dash {
   animation: wrapped-march 1.6s linear infinite;
 }
+
+/* Living pieces: a slow breathe + sway on the treasure artwork. Pure CSS on
+   an inner element, deliberately outside Motion's value system so it can
+   never be interrupted or corrupt the tile's spring animations. */
+@keyframes treasure-breathe {
+  0%, 100% { transform: scale(1) rotate(-1.6deg); }
+  50% { transform: scale(1.05) rotate(1.6deg); }
+}
+.treasure-breathe {
+  animation: treasure-breathe 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Prayer flags rock gently on their line */
+@keyframes flag-wave {
+  0%, 100% { transform: skewX(0deg) scaleY(1); }
+  50% { transform: skewX(7deg) scaleY(0.96); }
+}
+.flag-wave {
+  transform-origin: top center;
+  animation: flag-wave 3.2s ease-in-out infinite;
+}
+
+/* Soft clouds drifting across the sky */
+@keyframes cloud-drift {
+  from { transform: translateX(-30vw); }
+  to { transform: translateX(130vw); }
+}
+.cloud-drift {
+  animation: cloud-drift linear infinite;
+}
+
+/* Petals falling with a lazy sway */
+@keyframes petal-fall {
+  0% { transform: translateY(-4vh) translateX(0) rotate(0deg); opacity: 0; }
+  8% { opacity: 0.75; }
+  85% { opacity: 0.6; }
+  100% { transform: translateY(104vh) translateX(9vw) rotate(320deg); opacity: 0; }
+}
+.petal-fall {
+  animation: petal-fall linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .treasure-breathe, .flag-wave, .cloud-drift, .petal-fall {
+    animation: none;
+  }
+}
