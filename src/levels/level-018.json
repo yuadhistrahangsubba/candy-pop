@@ -1,0 +1,22 @@
+{
+  "id": "level-018",
+  "levelNumber": 18,
+  "name": "Lhuentse Silk",
+  "boardWidth": 8,
+  "boardHeight": 8,
+  "colorCount": 6,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 28,
+  "objectives": [
+    {
+      "type": "scoreTarget",
+      "target": 1800
+    }
+  ],
+  "starThresholds": [
+    1800,
+    2400,
+    3000
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "level-011",
+  "levelNumber": 11,
+  "name": "Tiger's Nest",
+  "boardWidth": 8,
+  "boardHeight": 8,
+  "colorCount": 5,
+  "blockedCells": [],
+  "iceCells": [
+    {
+      "row": 1,
+      "col": 1
+    },
+    {
+      "row": 1,
+      "col": 6
+    },
+    {
+      "row": 3,
+      "col": 3
+    },
+    {
+      "row": 3,
+      "col": 4
+    },
+    {
+      "row": 4,
+      "col": 3
+    },
+    {
+      "row": 4,
+      "col": 4
+    },
+    {
+      "row": 6,
+      "col": 1
+    },
+    {
+      "row": 6,
+      "col": 6
+    }
+  ],
+  "moveLimit": 26,
+  "objectives": [
+    {
+      "type": "breakIce",
+      "target": 8
+    }
+  ],
+  "starThresholds": [
+    800,
+    1300,
+    1800
+  ]
+}

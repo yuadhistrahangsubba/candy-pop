@@ -1,0 +1,23 @@
+{
+  "id": "level-009",
+  "levelNumber": 9,
+  "name": "Mongar Hills",
+  "boardWidth": 7,
+  "boardHeight": 7,
+  "colorCount": 5,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 24,
+  "objectives": [
+    {
+      "type": "collectColor",
+      "target": 18,
+      "color": "green"
+    }
+  ],
+  "starThresholds": [
+    800,
+    1200,
+    1600
+  ]
+}

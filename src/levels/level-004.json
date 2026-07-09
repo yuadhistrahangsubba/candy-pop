@@ -1,0 +1,23 @@
+{
+  "id": "level-004",
+  "levelNumber": 4,
+  "name": "Wangdue Winds",
+  "boardWidth": 7,
+  "boardHeight": 7,
+  "colorCount": 4,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 22,
+  "objectives": [
+    {
+      "type": "collectColor",
+      "target": 15,
+      "color": "blue"
+    }
+  ],
+  "starThresholds": [
+    600,
+    900,
+    1300
+  ]
+}

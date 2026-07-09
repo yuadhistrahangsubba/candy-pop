@@ -1,0 +1,39 @@
+{
+  "id": "level-006",
+  "levelNumber": 6,
+  "name": "Bumthang Frost",
+  "boardWidth": 6,
+  "boardHeight": 6,
+  "colorCount": 4,
+  "blockedCells": [],
+  "iceCells": [
+    {
+      "row": 2,
+      "col": 2
+    },
+    {
+      "row": 2,
+      "col": 3
+    },
+    {
+      "row": 3,
+      "col": 2
+    },
+    {
+      "row": 3,
+      "col": 3
+    }
+  ],
+  "moveLimit": 20,
+  "objectives": [
+    {
+      "type": "breakIce",
+      "target": 4
+    }
+  ],
+  "starThresholds": [
+    400,
+    700,
+    1000
+  ]
+}

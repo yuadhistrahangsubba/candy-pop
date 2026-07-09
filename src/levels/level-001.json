@@ -1,0 +1,22 @@
+{
+  "id": "level-001",
+  "levelNumber": 1,
+  "name": "Thimphu Sweets",
+  "boardWidth": 6,
+  "boardHeight": 6,
+  "colorCount": 4,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 20,
+  "objectives": [
+    {
+      "type": "scoreTarget",
+      "target": 500
+    }
+  ],
+  "starThresholds": [
+    500,
+    800,
+    1100
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "level-002",
+  "levelNumber": 2,
+  "name": "Paro Valley",
+  "boardWidth": 6,
+  "boardHeight": 6,
+  "colorCount": 4,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 20,
+  "objectives": [
+    {
+      "type": "collectColor",
+      "target": 12,
+      "color": "red"
+    }
+  ],
+  "starThresholds": [
+    450,
+    750,
+    1050
+  ]
+}

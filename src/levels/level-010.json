@@ -1,0 +1,22 @@
+{
+  "id": "level-010",
+  "levelNumber": 10,
+  "name": "Trashigang Fair",
+  "boardWidth": 7,
+  "boardHeight": 7,
+  "colorCount": 5,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 24,
+  "objectives": [
+    {
+      "type": "scoreTarget",
+      "target": 1200
+    }
+  ],
+  "starThresholds": [
+    1200,
+    1700,
+    2200
+  ]
+}

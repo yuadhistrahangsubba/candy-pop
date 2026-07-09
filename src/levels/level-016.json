@@ -1,0 +1,23 @@
+{
+  "id": "level-016",
+  "levelNumber": 16,
+  "name": "Samtse Gardens",
+  "boardWidth": 8,
+  "boardHeight": 8,
+  "colorCount": 5,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 26,
+  "objectives": [
+    {
+      "type": "collectColor",
+      "target": 22,
+      "color": "yellow"
+    }
+  ],
+  "starThresholds": [
+    1100,
+    1600,
+    2200
+  ]
+}

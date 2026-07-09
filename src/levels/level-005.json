@@ -1,0 +1,22 @@
+{
+  "id": "level-005",
+  "levelNumber": 5,
+  "name": "Trongsa Tower",
+  "boardWidth": 7,
+  "boardHeight": 7,
+  "colorCount": 4,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 24,
+  "objectives": [
+    {
+      "type": "scoreTarget",
+      "target": 900
+    }
+  ],
+  "starThresholds": [
+    900,
+    1300,
+    1800
+  ]
+}

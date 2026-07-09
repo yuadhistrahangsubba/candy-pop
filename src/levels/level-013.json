@@ -1,0 +1,23 @@
+{
+  "id": "level-013",
+  "levelNumber": 13,
+  "name": "Phobjikha Cranes",
+  "boardWidth": 8,
+  "boardHeight": 8,
+  "colorCount": 5,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 26,
+  "objectives": [
+    {
+      "type": "collectColor",
+      "target": 20,
+      "color": "purple"
+    }
+  ],
+  "starThresholds": [
+    1000,
+    1500,
+    2000
+  ]
+}

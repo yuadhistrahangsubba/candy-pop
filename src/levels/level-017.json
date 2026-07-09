@@ -1,0 +1,71 @@
+{
+  "id": "level-017",
+  "levelNumber": 17,
+  "name": "Pemagatshel Glow",
+  "boardWidth": 8,
+  "boardHeight": 8,
+  "colorCount": 5,
+  "blockedCells": [],
+  "iceCells": [
+    {
+      "row": 1,
+      "col": 1
+    },
+    {
+      "row": 1,
+      "col": 3
+    },
+    {
+      "row": 1,
+      "col": 4
+    },
+    {
+      "row": 1,
+      "col": 6
+    },
+    {
+      "row": 3,
+      "col": 0
+    },
+    {
+      "row": 3,
+      "col": 7
+    },
+    {
+      "row": 4,
+      "col": 0
+    },
+    {
+      "row": 4,
+      "col": 7
+    },
+    {
+      "row": 6,
+      "col": 1
+    },
+    {
+      "row": 6,
+      "col": 3
+    },
+    {
+      "row": 6,
+      "col": 4
+    },
+    {
+      "row": 6,
+      "col": 6
+    }
+  ],
+  "moveLimit": 28,
+  "objectives": [
+    {
+      "type": "breakIce",
+      "target": 12
+    }
+  ],
+  "starThresholds": [
+    1100,
+    1600,
+    2300
+  ]
+}

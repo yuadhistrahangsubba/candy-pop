@@ -1,0 +1,22 @@
+{
+  "id": "level-012",
+  "levelNumber": 12,
+  "name": "Dochula Pass",
+  "boardWidth": 8,
+  "boardHeight": 8,
+  "colorCount": 5,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 26,
+  "objectives": [
+    {
+      "type": "scoreTarget",
+      "target": 1400
+    }
+  ],
+  "starThresholds": [
+    1400,
+    1900,
+    2500
+  ]
+}

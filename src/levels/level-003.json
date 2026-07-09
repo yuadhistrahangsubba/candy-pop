@@ -1,0 +1,22 @@
+{
+  "id": "level-003",
+  "levelNumber": 3,
+  "name": "Punakha Bridge",
+  "boardWidth": 6,
+  "boardHeight": 6,
+  "colorCount": 4,
+  "blockedCells": [],
+  "iceCells": [],
+  "moveLimit": 22,
+  "objectives": [
+    {
+      "type": "scoreTarget",
+      "target": 700
+    }
+  ],
+  "starThresholds": [
+    700,
+    1000,
+    1400
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "level-008",
+  "levelNumber": 8,
+  "name": "Gasa Hot Springs",
+  "boardWidth": 7,
+  "boardHeight": 7,
+  "colorCount": 4,
+  "blockedCells": [],
+  "iceCells": [
+    {
+      "row": 1,
+      "col": 1
+    },
+    {
+      "row": 1,
+      "col": 5
+    },
+    {
+      "row": 3,
+      "col": 3
+    },
+    {
+      "row": 3,
+      "col": 4
+    },
+    {
+      "row": 5,
+      "col": 1
+    },
+    {
+      "row": 5,
+      "col": 5
+    }
+  ],
+  "moveLimit": 22,
+  "objectives": [
+    {
+      "type": "breakIce",
+      "target": 6
+    }
+  ],
+  "starThresholds": [
+    600,
+    1000,
+    1400
+  ]
+}
